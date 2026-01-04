@@ -1,0 +1,18 @@
+{
+	"extension": {
+		"version": "0.7.2025041600",
+		"json": 2
+	},
+	"project": {
+		"name": "2025-2026Season",
+		"description": "",
+		"creationDate": "1/4/2026, 2:19:54 PM",
+		"platform": "IQ2",
+		"language": "python",
+		"slot": 1,
+		"sdkVersion": "IQ2_1_0_0_21",
+		"python": {
+			"main": "src/main.py"
+		}
+	}
+}
