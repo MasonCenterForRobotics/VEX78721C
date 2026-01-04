@@ -1,7 +1,7 @@
 # ---------------------------------------------------------------------------- #
 #                                                                              #
 # 	Module:       main.py                                                      #
-# 	Author:       TylerThongpinyochai                                          #
+# 	Author:       VexTeamSquared                                          #
 # 	Created:      1/4/2026, 2:19:54 PM                                         #
 # 	Description:  IQ2 project                                                  #
 #                                                                              #
