@@ -1,0 +1,18 @@
+{
+	"extension": {
+		"version": "0.8.2026011200",
+		"json": 2
+	},
+	"project": {
+		"name": "kajhkfdhgksdfhk",
+		"description": "",
+		"creationDate": "1/21/2026, 7:37:25 PM",
+		"platform": "IQ2",
+		"language": "python",
+		"slot": 1,
+		"sdkVersion": "IQ2_1_0_0_21",
+		"python": {
+			"main": "src/main.py"
+		}
+	}
+}
