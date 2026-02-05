@@ -36,7 +36,7 @@ motor_aux_1 = Motor(Ports.PORT11, False)
 motor_aux_2 = Motor(Ports.PORT5, False)
 
 # Max motor speed (percent) for motors controlled by buttons
-MAX_SPEED = 50
+MAX_SPEED = 75
 
 #
 # All motors are controlled from this function which is run as a separate thread
@@ -46,7 +46,7 @@ def drive_task():
     drive_right = 0
 
     # setup the claw motor
-    claw_motor.set_max_torque(25, PERCENT)
+    claw_motor.set_max_torque(100, PERCENT)
     claw_motor.set_stopping(HOLD)
 
     # setup the arm motor
