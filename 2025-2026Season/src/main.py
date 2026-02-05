@@ -21,30 +21,36 @@ brain_inertial = Inertial()
 controller = Controller()
 
 # Drive motors
-left_drive_2 = Motor(Ports.PORT7, True)
-right_drive_2 = Motor(Ports.PORT12,  False)
+left_drive_1 = Motor(Ports.PORT1, False)
+left_drive_2 = Motor(Ports.PORT7, False)
+right_drive_1 = Motor(Ports.PORT6, True)
+right_drive_2 = Motor(Ports.PORT12, True)
 
 # Arm and claw motors will have brake mode set to hold
 # Claw motor will have max torque limited
-claw_motor = Motor(Ports.PORT4, False)
-lift_motor = Motor(Ports.PORT11, True)
+claw_motor = Motor(Ports.PORT4, True)
+arm_motor = Motor(Ports.PORT10, True)
+
+# Auxilary motors
+motor_aux_1 = Motor(Ports.PORT11, False)
+motor_aux_2 = Motor(Ports.PORT5, False)
 
 # Max motor speed (percent) for motors controlled by buttons
-MAX_SPEED = 50
+MAX_SPEED = 75
 
 #
 # All motors are controlled from this function which is run as a separate thread
 #
 def drive_task():
-    drive_axis = 0
-    turn_axis = 0
+    drive_left = 0
+    drive_right = 0
 
     # setup the claw motor
-    claw_motor.set_max_torque(25, PERCENT)
+    claw_motor.set_max_torque(100, PERCENT)
     claw_motor.set_stopping(HOLD)
 
     # setup the arm motor
-    lift_motor.set_stopping(HOLD)
+    arm_motor.set_stopping(HOLD)
 
     # loop forever
     while True:
@@ -57,39 +63,33 @@ def drive_task():
         control_r2  = (controller.buttonFUp.pressing() - controller.buttonFDown.pressing()) * MAX_SPEED
 
         # joystick tank control
-        drive_axis = controller.axisD.position()
-        turn_axis = controller.axisB.position()
+        drive_left = controller.axisA.position()
+        drive_right = controller.axisD.position()
 
         # threshold the variable channels so the drive does not
         # move if the joystick axis does not return exactly to 0
         deadband = 15
-        if abs(drive_axis) + abs(turn_axis) > deadband:
-            left_drive_2.set_velocity((drive_axis + turn_axis), PERCENT)
-            right_drive_2.set_velocity((drive_axis - turn_axis), PERCENT)
-        else:
-            left_drive_2.set_velocity(0, PERCENT)
-            right_drive_2.set_velocity(0, PERCENT)
-        left_drive_2.spin(FORWARD)
-        right_drive_2.spin(FORWARD)
+        if abs(drive_left) < deadband:
+            drive_left = 0
+        if abs(drive_right) < deadband:
+            drive_right = 0
 
-        wait(20, MSEC)
+        # Now send all drive values to motors
 
-        #if abs(drive_axis) < deadband:
-            #drive_axis = 0
-        #if abs(turn_axis) < deadband:
-            #turn_axis = 0
-
-       # # Now send all drive values to motors
-
-       # # The drivetrain
-        #left_drive_2.spin(FORWARD, drive_axis, PERCENT)
-        #right_drive_2.spin(FORWARD, turn_axis, PERCENT)
+        # The drivetrain
+        left_drive_1.spin(FORWARD, drive_left, PERCENT)
+        left_drive_2.spin(FORWARD, drive_left, PERCENT)
+        right_drive_1.spin(FORWARD, drive_right, PERCENT)
+        right_drive_2.spin(FORWARD, drive_right, PERCENT)
 
         # Claw and Arm motors
+        arm_motor.spin(FORWARD, control_l1, PERCENT)
         claw_motor.spin(FORWARD, control_r1, PERCENT)
  
         # and the auxilary motors
-        lift_motor.spin(FORWARD, control_l2, PERCENT)
+        motor_aux_1.spin(FORWARD, control_l2, PERCENT)
+        motor_aux_2.spin(FORWARD, control_r2, PERCENT)
+
         # No need to run too fast
         sleep(10)
 
