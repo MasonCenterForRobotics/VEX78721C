@@ -9,7 +9,7 @@
 		"creationDate": "1/17/2026, 7:24:34 AM",
 		"platform": "IQ2",
 		"language": "python",
-		"slot": 2,
+		"slot": 4,
 		"sdkVersion": "IQ2_1_0_0_21",
 		"python": {
 			"main": "src/main.py"
