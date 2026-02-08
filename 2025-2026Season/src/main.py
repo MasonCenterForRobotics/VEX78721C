@@ -28,7 +28,7 @@ claw_motor = Motor(Ports.PORT4, False)
 lift_motor = Motor(Ports.PORT11, True)
 
 # Max motor speed (percent) for motors controlled by buttons
-MAX_SPEED = 50
+MAX_SPEED = 75
 
 #
 # All motors are controlled from this function which is run as a separate thread
