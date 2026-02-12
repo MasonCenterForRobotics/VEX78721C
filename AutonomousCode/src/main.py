@@ -9,6 +9,7 @@
 
 # Library imports
 from vex import *
+import sys
 
 # Brain should be defined by default
 brain=Brain()
@@ -53,13 +54,21 @@ def autonomous_code():
     wait(1000, MSEC)
     lift_motor.spin_for(REVERSE, 1000, DEGREES)
     drivetrain.drive_for(FORWARD, 310, MM)
-    drivetrain.turn_for(RIGHT, 12, DEGREES)
-    drivetrain.drive_for(FORWARD, 50, MM)
-    #lift_motor.spin_for(FORWARD, 450, DEGREES)
-    #claw_motor.spin(FORWARD)
+    drivetrain.turn_for(RIGHT, 14, DEGREES)
+    drivetrain.drive_for(FORWARD, 51, MM)
+    wait(500, MSEC)
+    claw_motor.spin(FORWARD)
+    lift_motor.spin_for(FORWARD, 1000, DEGREES)
+    drivetrain.drive_for(FORWARD, 10, MM)
+    claw_motor.spin(REVERSE)
+    drivetrain.turn_for(LEFT, 20, DEGREES)
+    lift_motor.spin_for(REVERSE, 1000, DEGREES)
+    drivetrain.drive_for(FORWARD, 75, MM)
+
     #drivetrain.drive_for(REVERSE, 20, MM)
     #lift_motor.spin_for(FORWARD, 500, DEGREES)
     #claw_motor.spin(REVERSE)
+    sys.exit()
 
 def vrcode():
     #drivetrain.drive_for(FORWARD, 390, MM)
