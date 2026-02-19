@@ -45,14 +45,19 @@ def drive_task():
     lift_motor.set_stopping(HOLD)
 
     # loop forever
+    speed_modifier = 1.0
     while True:
         # buttons
         # Three values, max, 0 and -max.
         #
         control_l1  = (controller.buttonLUp.pressing() - controller.buttonLDown.pressing()) * MAX_SPEED
-        control_r1  = (controller.buttonRUp.pressing() - controller.buttonRDown.pressing()) * MAX_SPEED
-        control_l2  = (controller.buttonEUp.pressing() - controller.buttonEDown.pressing()) * MAX_SPEED
-        control_r2  = (controller.buttonFUp.pressing() - controller.buttonFDown.pressing()) * MAX_SPEED
+        control_r  = (controller.buttonRUp.pressing() - controller.buttonRDown.pressing()) * MAX_SPEED
+        control_E  = (controller.buttonEUp.pressing() - controller.buttonEDown.pressing()) * MAX_SPEED
+        control_f  = (controller.buttonFUp.pressing() - controller.buttonFDown.pressing()) * MAX_SPEED
+        
+        if controller.buttonFUp.pressing():
+            speed_modifier = 1.0 if speed_modifier != 1.0 else 0.20
+            brain.screen.print('Speed modifier = ' + str(speed_modifier))
 
         # joystick tank control
         drive_axis = controller.axisD.position()
@@ -62,8 +67,8 @@ def drive_task():
         # move if the joystick axis does not return exactly to 0
         deadband = 15
         if abs(drive_axis) + abs(turn_axis) > deadband:
-            left_drive_2.set_velocity((drive_axis + turn_axis), PERCENT)
-            right_drive_2.set_velocity((drive_axis - turn_axis), PERCENT)
+            left_drive_2.set_velocity((drive_axis + turn_axis) * speed_modifier, PERCENT)
+            right_drive_2.set_velocity((drive_axis - turn_axis) * speed_modifier, PERCENT)
         else:
             left_drive_2.set_velocity(0, PERCENT)
             right_drive_2.set_velocity(0, PERCENT)
@@ -84,10 +89,10 @@ def drive_task():
         #right_drive_2.spin(FORWARD, turn_axis, PERCENT)
 
         # Claw and Arm motors
-        claw_motor.spin(FORWARD, control_r1, PERCENT)
+        claw_motor.spin(FORWARD, control_r, PERCENT)
  
         # and the auxilary motors
-        lift_motor.spin(FORWARD, control_l2, PERCENT)
+        lift_motor.spin(FORWARD, control_E, PERCENT)
         # No need to run too fast
         sleep(10)
 
