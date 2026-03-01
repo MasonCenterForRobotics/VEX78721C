@@ -38,7 +38,7 @@ def drive_task():
     turn_axis = 0
 
     # setup the claw motor
-    claw_motor.set_max_torque(50, PERCENT)
+    claw_motor.set_max_torque(100, PERCENT)
     claw_motor.set_stopping(HOLD)
 
     # setup the arm motor
